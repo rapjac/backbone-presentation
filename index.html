@@ -14,6 +14,7 @@
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
+
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
 		<script>
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
@@ -28,21 +29,350 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section data-state="reverse">
-					<h1>HootSuite Presentation Deck</h1>
-					<h3>Code > Powerpoint</h3>
-					<h3>@yourname</h3>
+					<h1>Hootsuite & Backbone.js</h1>
+          <h3>Rafael Jacinto</h3>
+          <h3>APSC 411</h3>
 				</section>
 				<section>
-					<h2>Sample Content</h2>
-					<p>Sample Content Goes Here</p>
+					<h2>Hi! I'm Rafael Jacinto</h2>
+					<p>4th year Computer Engineering Student</p>
 					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+            Hi I'm Rafael, a 4th year Computer engineering student,\
 					</aside>
 				</section>
+        <section>
+          <img src="images/hq2.jpg">
+          <aside class="notes">
+            And for the past 8 months, I've been working as a Co-op software engineer at Hootsuite
+            Flying with most brilliant owls of Vancouver!
+          </aside>
+        </section>
+        <section>
+          <img src="images/mw0.png">
+          <img src="images/mw1.png">
+          <aside class="notes">
+            <ul>
+              <li>4 months working w/ amazing team of managers, designers, and engineers to bring THIS to life.</li>
+              <li>This is Hootsuite for Mobile Web.</li>
+              <li>What excites me about mobile web is opp to bring a tangible and engaging experience to the palms of everybody's hands, regardless of device.</li>
+            </ul>
+          </aside>
+        </section>
+        <section>
+          <h2>Enter Backbone.js</h2>
+          <aside class="notes">
+            To achieve this... Enter Backbone.js
+          </aside>
+        </section>
+        <section>
+          <h2>Backbone.js</h2>
+          <h3>It's a Javascript framework lays the foundation for building powerful, interactive web applications.</h3>
+          <aside class="notes">
+            What is Backbone? It's a Javascript framework lays the foundation for building powerful, interactive web applications.
+          </aside>
+        </section>
+        <section>
+          <h2>Main Components</h2>
+          <ul>
+            <li class="fragment">Model</li>
+            <li class="fragment">View</li>
+            <li class="fragment">Collection</li>
+          </ul>
+          <aside class="notes">
+            Today I'll be focusing on three of Backbone's main components: (list) The best way to see these elements in action is to build an app!
+          </aside>
+        </section>
+        <section>
+          <h2>Let's build a Twitter Stream</h2>
+          <aside class="notes">
+            Let's do something social and build a Twitter stream!
+          </aside>
+        </section>
+        <section>
+          <h2>The Backbone Model</h2>
+          <h3>A container for interactive data</h3>
+          <aside class="notes">
+            Our first stop is the Backbone Model: The Model is a container for interactive data. It allows us to represent and manipulate this data however we want
+          </aside>
+        </section>
+        <section>
+          <h2>What's in a Tweet?</h2>
+          <ul>
+            <li class="fragment">Username</li>
+            <li class="fragment">Avatar URL</li>
+            <li class="fragment">URL</li>
+            <li class="fragment">Date Sent</li>
+            <li class="fragment">Message Text</li>
+            <li class="fragment"># of Times Favourited</li>
+            <li class="fragment"># of Times Retweeted</li>
+          </ul>
+          <aside class="notes">
+            Let's consider the smallest unit of data in our Twitter stream app: The Tweet. What's in a tweet? (list)
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweet Class</h2>
+          <pre><code data-trim>
+var Tweet = Backbone.Model.extend({
+  defaults: {
+    username: '',
+    avatar: '',
+    message: '',
+    url: '',
+    date: '',
+    favourites: 0,
+    retweets: 0
+  }
+});
+          </code></pre>
+          <aside class="notes">
+            This is what it looks like when we translate this into Javascript.
+            We call extend() so that our Tweet class is a Backbone Model tailored to our specific needs
+            The defaults property makes sure newly created Tweet objects contain these specific properties
+          </aside>
+        </section>
+        <section>
+          <h2>Creating Tweets</h2>
+          <pre><code data-trim style="font-size: 20px !important; line-height: 28px !important; padding: 20px;">
+var t = new Tweet({
+  username: 'rpdjacinto',
+  avatar: 'https://pbs.twimg.com/profile_images/2521984794/owx2zxnh42jh5zd0l59s.jpeg',
+  message: 'Hootsuite mobile is now built for all devices, inc'l #blackberry and #windows. Viewable on your desktop, too http://ow.ly/yp7Yz',
+  url: 'https://twitter.com/rpdjacinto/status/481506191210975232',
+  date: 'Jul 24',
+  favourites: 1,
+  retweets: 2
+});
+          </code></pre>
+          <aside class="notes">
+            And this is how we to create a new Tweet. We pass in a Javascript Object containing all the necessary information
+          </aside>
+        </section>
+        <section>
+          <h2>Important Functions</h2>
+          <ul>
+            <li class="fragment">get() eg. myTweet.set('username', 'rpdjacinto');</li>
+            <li class="fragment">set() eg. var myName = myTweet.get('username');</li>
+            <li class="fragment">save() save model data to server</li>
+            <li class="fragment">fetch() get model data from server</li>
+          </ul>
+          <aside class="notes">
+          </aside>
+        </section>
+        <section>
+          <h2>The Backbone Collection</h2>
+          <h3>An ordered set of Models</h3>
+          <aside class="notes">
+            There's nothing social about a single tweet. Let's give it some company. Backbone Collections are ordered sets of models, and are useful for when we retrieve multiple models from a server
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweets Collection</h2>
+          <pre><code data-trim>
+var Tweets = Backbone.Collection.extend({
+  model: Tweet
+});
+          </code></pre>
+          <aside class="notes">
+            This is our Tweets collection in code: When we extend the Backbone Collection, we specify what kind of models we'll put in our Collection.
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweets Collection</h2>
+          <pre><code data-trim style="font-size: 24px !important; line-height: 28px !important; padding: 20px;">
+var tweet1 = new Tweet();
+var tweet2 = new Tweet();
+var tweet3 = new Tweet();
+
+var myTweets = new Tweets([tweet1, tweet2, tweet3]);
+          </code></pre>
+          <aside class="notes">
+            This is one way of creating a Tweets collection. I've created three individual tweets and pass them as a list into the newly created TweetsCollection
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweets Collection</h2>
+          <pre><code data-trim>
+var myTweets = new Tweets([], {
+    url: '/tweets/'
+});
+
+myTweets.fetch();
+          </code></pre>
+          <aside class="notes">
+            We can even load a collection's models from the server by using fetch() to making an API request! So we've represented our information as an ordered set of tweets But this is all data, we need to find a way to visualize this.
+          </aside>
+        </section>
+        <section>
+          <h2>Important Functions</h2>
+          <ul class="fragment">
+            <li class="fragment">add() and remove(): Adding or removing one or more models</li>
+            <li class="fragment">push() and pop(): using the Collection as a Stack</li>
+            <li class="fragment">get() and at(): retrieve one model by id, or index</li>
+            <li class="fragment">where() eg. myTweets.where({username: 'rpdjacinto'});</li>
+            <li class="fragment">each() perform an operation on each model</li>
+          </ul>
+          <aside class="notes">
+          </aside>
+        </section>
+        <section>
+          <h3>How do we visualize this?</h3>
+          <aside class="notes">
+            So we've represented our information as a set of tweets that each have their own properties. But this is all data, we need to find a way to visualize this.
+          </aside>
+        </section>
+        <section>
+          <h1>The Backbone View</h1>
+          <h3>Binding Data to Visual Elements</h3>
+          <aside class="notes">
+            This is a job for the Backbone View. Let's say I whipped together this nice layout for each tweet using HTML. The Backbone View allows me to bind this visual element to our model.
+          </aside>
+        </section>
+        <section>
+          <h2>HTML Example</h2>
+          <div style="text-align: center"><img src="images/tweethtml.png" style="zoom: 2"></div>
+          <aside class="notes">
+            Here is a design for an individual Tweet
+          </aside>
+        </section>
+        <section>
+          <h2>HTML Example</h2>
+          <pre><code data-trim style="font-size: 20px !important; line-height: 28px !important; padding: 20px;">
+<div class="media">
+  <a class="pull-left" href="https://twitter.com/rpdjacinto/status/481506191210975232">
+    <img class="media-object img-circle" src="https://pbs.twimg.com/profile_images/2521984794/owx2zxnh42jh5zd0l59s.jpeg">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">@rpdjacinto <small>Jun 24</small></h4>
+    Hootsuite mobile is now built for all devices, inc'l #blackberry and #windows. Viewable on your desktop, too http://ow.ly/yp7Yz
+  </div>
+</div>
+          </code></pre>
+          <aside class="notes">
+            Which translates to this HTML code. In order to use Backbone Views, we need to make this much more generic.
+          </aside>
+        </section>
+        <section>
+          <h2>Templating</h2>
+          <pre><code data-trim style="font-size: 20px !important; line-height: 28px !important; padding: 20px;">
+<script id="tweet-view" type="text/template">
+  <div class="media">
+    <a class="pull-left" href="<%- url %>">
+      <img class="media-object img-circle" src="<%- avatar %>">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">@<%- username %> <small><%- date %></small></h4>
+      <%- message %>
+    </div>
+  </div>
+</script>
+          </code></pre>
+          <aside class="notes">
+            Luckily for us, Backbone.js has a very powerful templating language. We can use this to create a template that we can inject model data into.
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweet View</h2>
+          <pre><code data-trim style="font-size: 20px !important; line-height: 28px !important; padding: 20px;">
+var TweetView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'tweet'
+});
+          </code></pre>
+          <aside class="notes">
+            And now for the Backbone View. We specify a tagName and className to tell Backbone what kind of element we're building.
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweet View</h2>
+          <pre><code data-trim style="font-size: 20px !important; line-height: 28px !important; padding: 20px;">
+var TweetView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'tweet'
+  template: _.template($('#tweet-view').html()),
+});
+          </code></pre>
+          <aside class="notes">
+            Next, we add a template property, which stores the html template we made earlier
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweet View</h2>
+          <pre><code data-trim style="font-size: 20px !important; line-height: 28px !important; padding: 20px;">
+var TweetView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'tweet'
+  template: _.template($('#tweet-view').html()),
+  initialize: function () {
+    // Whenever the model changes, let's re-render the HTML
+    this.listenTo(this.model, 'change', this.render);
+  },
+});
+          </code></pre>
+          <aside class="notes">
+            The initialize function is where the binding happens. When the view is created, we use the listenTo function to call the render function whenever the model changes. What render function, you say?
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweet View</h2>
+          <pre><code data-trim style="font-size: 20px !important; line-height: 28px !important; padding: 20px;">
+var TweetView = Backbone.View.extend({
+  tagName: 'div',
+  className: 'tweet',
+  template: _.template($('#tweet-view').html()),
+  initialize: function () {
+    // Whenever the model changes, let's re-render the HTML
+    this.listenTo(this.model, 'change', this.render);
+  },
+  render: function () {
+    // Let's populate our template with our model's data
+    this.$el.html(this.template(this.model.toJSON()));
+  }
+});
+          </code></pre>
+          <aside class="notes">
+            This one. The render function is where the model's data populate the template.
+          </aside>
+        </section>
+        <section>
+          <h2>The TwitterStream View</h2>
+          <aside class="notes">
+            To wrap things up, we have one last view to create. The stream itself will need a view object that will use all of the aforementioned parts
+          </aside>
+        </section>
+        <section>
+          <h2>The Tweet View</h2>
+          <pre><code data-trim style="font-size: 20px !important; line-height: 28px !important; padding: 20px;">
+var TwitterStreamView = Backbone.View.extend({
+  el: $('#twitterStream'),
+  template: _.template($('#tweet-view').html()),
+  initialize: function () {
+    // Fetch our tweets from the server
+    this.tweets = new Tweets();
+    tweets.fetch();
+  },
+  render: function () {
+    // Append a mtweetView for each tweet we retrieved
+    this.$el.html('');
+    this.tweets.each(function (tweet) {
+      var tweetView = new TweetView({ model: tweet });
+      this.$el.append(tweetView.render().el);
+    });
+  }
+});
+
+// Create an instance and watch the magic happen!
+var twitterStream = new TwitterStreamView();
+          </code></pre>
+          <aside class="notes">
+            - initialize: tweets created, fetched
+            - render: for each tweet, create a tweetview, render it, attach it to our TwitterStream
+          </aside>
+        </section>
 				<section data-state="reverse">
 					<h1>Thank You!</h1>
-					<h3>@yourname</h3>
-					<h3>your.name@hootsuite.com</h3>
+					<h3>@rpdjacinto</h3>
+					<h3>rpdjacinto@gmail.com</h3>
 				</section>
 			</div>
 		</div>
